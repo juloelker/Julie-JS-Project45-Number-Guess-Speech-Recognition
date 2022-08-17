@@ -1,16 +1,32 @@
 const msgEl = document.getElementById('msg');
+const playBtn = document.getElementById('play-btn');
 
-const randomNum = getRandomNumber();
+let targetNumber;
 
-console.log('Number:' + '', randomNum);
+let speechTool = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-window.SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = new speechTool();
 
-let recognition = new window.SpeechRecognition();
+playBtn.addEventListener('click', startGame);
 
-//start recognition and game
-recognition.start();
+function startGame() {
+  //assign value to targetNumber and console.log it
+  targetNumber = getRandomNumber();
+  console.log('Number:' + '', targetNumber);
+
+  //hide the start button
+  playBtn.classList.add('hide');
+
+  //make the msg element blank
+  msgEl.innerText = '';
+
+  recognition.start();
+}
+
+//generate random number, 1-100
+function getRandomNumber() {
+  return Math.floor(Math.random() * 100) + 1;
+}
 
 //Capture user speaking
 function onSpeak(e) {
@@ -44,21 +60,22 @@ function checkNumber(msg) {
 
   //Check the number
   //win
-  if (num === randomNum) {
+  if (num === targetNumber) {
+    //win
     msgEl.innerHTML = `<h2>${num} is correct. You win!</h2>
-  <button class="play-again" id="play-again">Play Again</button>`; //too low
-  } else if (num < randomNum) {
+    `;
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+    //too low
+  } else if (num < targetNumber) {
     msgEl.innerHTML += `<div>GO HIGHER</div>
-    `; //too high
+    `;
+    //too high
   } else {
     msgEl.innerHTML += `<div>GO LOWER</div>
     `;
   }
-}
-
-//generate random number, 1-100
-function getRandomNumber() {
-  return Math.floor(Math.random() * 100) + 1;
 }
 
 //speak result
@@ -66,17 +83,3 @@ recognition.addEventListener('result', onSpeak);
 
 //End speech recognition service and start it again for the next guess
 recognition.addEventListener('end', () => recognition.start());
-
-document.body.addEventListener('click', e => {
-  if (e.target.id === 'play-again') {
-    window.location.reload();
-  }
-});
-/*
-*## Project Spec(ifications
-
-- Display UI directing user to speak guess x
-- Implement speech recognition to listen to mic
-- Process user's guess and match
-- Let user know higher, lower, match or not a number
-*/
