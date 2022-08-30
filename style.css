@@ -25,16 +25,23 @@ p {
   margin: 0;
 }
 
-.play-again {
-  padding: 8px 15px;
+.btn {
+  padding: 8px 8px;
   border: 0;
   background: #f4f4f4;
   border-radius: 5px;
   margin-top: 10px;
 }
 
+.play-btn:active {
+  font-weight: 600;
+}
+
+.play-btn.hide {
+  display: none;
+}
+
 .msg {
-  font-size: 1.5em;
   margin-top: 40px;
 }
 
