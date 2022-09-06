@@ -2,6 +2,6 @@
 
 This game is based on the Traversy Media course, 20 Projects with Vanilla JS.
 
-I am adding the following enhancements:
+I am adding the following enhancement:
 
-Create a start game function with button that changes its label from start game to play again.
+Create a start game function with a button to begin the game.  Before this, it started the voice recognition engine when the page was loaded.
